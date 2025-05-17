@@ -15,10 +15,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\Core\Database\Factories\MediaFactory;
 use Juzaweb\Core\Http\Resources\MediaResource;
-use Juzaweb\Core\Models\Enums\MediaType;
 use Juzaweb\Core\Models\Model;
 use Juzaweb\Core\Traits\HasAPI;
 use Juzaweb\FileManager\Contracts\Media as MediaContract;
+use Juzaweb\FileManager\Enums\MediaType;
 
 class Media extends Model
 {

@@ -12,7 +12,7 @@ class FolderController extends FileManagerController
     public function index(): \Illuminate\Contracts\View\View
     {
         $childrens = [];
-        $folders = MediaFolder::whereNull('folder_id')
+        $folders = Media::whereNull('folder_id')
             ->where('type', '=', $this->getType())
             ->get(['id', 'name']);
         $storage = Media::sum('size');
@@ -53,7 +53,7 @@ class FolderController extends FileManagerController
             return $this->throwError('folder-name');
         }
 
-        if (MediaFolder::folderExists($folder_name, $parent_id)) {
+        if (Media::folderExists($folder_name, $parent_id)) {
             return $this->throwError('folder-exist');
         }
 
@@ -63,7 +63,7 @@ class FolderController extends FileManagerController
 
         DB::beginTransaction();
         try {
-            $model = new MediaFolder();
+            $model = new Media();
             $model->name = $folder_name;
             $model->type = $this->getType();
             $model->folder_id = $parent_id;

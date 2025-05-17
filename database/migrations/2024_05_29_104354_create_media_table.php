@@ -4,7 +4,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Juzaweb\Core\Models\Enums\MediaType;
+use Juzaweb\FileManager\Enums\MediaType;
 
 return new class extends Migration
 {
