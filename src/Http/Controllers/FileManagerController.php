@@ -12,21 +12,24 @@ class FileManagerController extends Controller
 {
     protected static string $success_response = 'OK';
 
-    public function index(Request $request): View
+    public function index(Request $request, string $disk): View
     {
-        $type = $this->getType();
-        $mimeTypes = config("juzaweb.filemanager.types.{$type}.valid_mime");
-        $maxSize = config("juzaweb.filemanager.types.{$type}.max_size");
+        if ($type = $this->getType()) {
+            $mimeTypes = config("media.types.{$type}");
+        } else {
+            $mimeTypes = config("media.disks.{$disk}.mime_types");
+        }
+
+        $maxSize = config("media.disks.{$disk}.max_size");
         $multiChoose = $request->get('multichoose', 0);
 
-        abort_if(empty($mimeTypes), 404, 'File type not found');
-
         return view(
-            'cms::backend.filemanager.index',
+            'file-manager::index',
             compact(
                 'mimeTypes',
                 'maxSize',
-                'multiChoose'
+                'multiChoose',
+                'disk'
             )
         );
     }
@@ -114,7 +117,7 @@ class FileManagerController extends Controller
         return $errors;
     }
 
-    public function throwError($type, $variables = [])
+    public function throwError($type, $variables = []): void
     {
         throw new \Exception(trans('cms::filemanager.error_' . $type, $variables));
     }
@@ -126,7 +129,7 @@ class FileManagerController extends Controller
 
         foreach ($itemNames as $file) {
             if (is_null($file)) {
-                array_push($errors, parent::error('folder-name'));
+                $errors[] = parent::error('folder-name');
                 continue;
             }
 

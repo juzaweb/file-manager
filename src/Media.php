@@ -20,20 +20,22 @@ class Media
 {
     public static function browser(): void
     {
-        Route::get('/', [FileManagerController::class, 'index']);
+        Route::get('/{disk}', [FileManagerController::class, 'index']);
 
-        Route::get('/errors', [FileManagerController::class, 'getErrors']);
+        Route::get('/{disk}/errors', [FileManagerController::class, 'getErrors']);
 
-        Route::any('/upload', [UploadController::class, 'upload'])->name('media.upload');
+        Route::get('/{disk}/items', [ItemsController::class, 'getItems']);
 
-        Route::any('/import', [UploadController::class, 'import'])->name('media.import');
+        Route::post('/{disk}/newfolder', [FolderController::class, 'addfolder']);
 
-        Route::get('/items', [ItemsController::class, 'getItems']);
+        Route::get('/{disk}/folders', [FolderController::class, 'getFolders']);
 
-        Route::post('/newfolder', [FolderController::class, 'addfolder']);
+        Route::post('/{disk}/delete', [DeleteController::class, 'delete']);
 
-        Route::get('/folders', [FolderController::class, 'getFolders']);
+        Route::post('/{disk}/upload', [UploadController::class, 'upload'])
+            ->name('media.upload');
 
-        Route::post('/delete', [DeleteController::class, 'delete']);
+        Route::post('/{disk}/import', [UploadController::class, 'import'])
+            ->name('media.import');
     }
 }

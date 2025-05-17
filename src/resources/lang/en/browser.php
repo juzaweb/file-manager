@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'nav-home' => 'Home',
     'nav-back' => 'Back',
     'nav-new' => 'New Folder',
     'nav-upload' => 'Upload',
@@ -82,4 +83,9 @@ return [
 
     'add-folder-successfully' => 'Add folder successfully.',
     'message_extension_not_found' => ':name extension not found.',
+    'download_to_server' => 'Download to server',
+    'upload_file' => 'Upload file',
+    'url' => 'URL',
+    'upload_media' => 'Upload Media',
+    'upload_from_url' => 'Upload from URL',
 ];

@@ -15,38 +15,12 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\Core\Database\Factories\MediaFactory;
-use Juzaweb\Core\Http\Resources\MediaResource;
 use Juzaweb\FileManager\Contracts\Media as MediaContract;
 use Juzaweb\FileManager\Enums\MediaType;
 
 class Media extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
-
-    public const IMAGE_MIME_TYPES = [
-        'image/png',
-        'image/jpeg',
-        'image/jpg',
-        'image/gif',
-        'image/svg+xml',
-        'image/svg',
-    ];
-
-    public const VIDEO_MIME_TYPES = [
-        'video/mp4',
-        'video/ogg',
-        'video/webm',
-    ];
-
-    public const AUDIO_MIME_TYPES = [
-        'audio/mp3',
-        'audio/mpeg',
-    ];
-
-    public const DOCUMENT_MIME_TYPES = [
-        'application/pdf',
-        'text/plain',
-    ];
 
     protected Filesystem $filesystem;
 

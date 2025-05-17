@@ -13,6 +13,8 @@ class FileManagerServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'file-manager');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'file-manager');
     }
 
     public function register(): void
