@@ -10,7 +10,9 @@
 return [
     'disks' => [
         'public' => [
-            /** Mime types can be uploaded */
+            /**
+             * Mime types can be uploaded
+             */
             'mime_types' => [
                 'image/png',
                 'image/jpeg',
@@ -32,16 +34,24 @@ return [
                 'application/zip',
             ],
 
-            /** Max size of file in bytes */
+            /**
+             * Max size of file in bytes
+             */
             'max_size' => 1024 * 1024 * 15, // 15 MB
         ],
     ],
 
+    /**
+     * On/Off Upload from URL
+     *
+     * Default: true
+     */
     'upload_from_url' => env('JW_MEDIA_UPLOAD_FROM_URL', true),
 
     /**
      * On/Off Optimize uploaded images
      *
+     * Default: false
      */
     'image-optimize' => env('JW_MEDIA_IMAGE_OPTIMIZE', false),
 

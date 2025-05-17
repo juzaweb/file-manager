@@ -9,7 +9,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="#333844">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ trans('file-manager::browser.title-page') }}</title>
-        <link rel="shortcut icon" type="image/png" href="{{ asset('jw-styles/juzaweb/images/favicon.ico') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
         <link rel="stylesheet" href="{{ asset('jw-styles/juzaweb/css/filemanager.min.css') }}">
     </head>
 <body>
