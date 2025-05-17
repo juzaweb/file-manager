@@ -33,6 +33,6 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^10.3"
+        "orchestra/testbench": "^9.0 || ^10.3 || ^11.0"
     }
 }

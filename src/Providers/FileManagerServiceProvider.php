@@ -19,6 +19,12 @@ class FileManagerServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
+        $this->mergeConfigFrom(__DIR__ . '/../../config/media.php', 'media');
+
+        $this->publishes([
+            __DIR__ . '/../../config/media.php' => config_path('media.php'),
+        ], 'media-config');
+
         $this->app->singleton(Media::class, MediaRepository::class);
 
         $this->app->singleton(ImageConversion::class, ImageConversionRepository::class);
