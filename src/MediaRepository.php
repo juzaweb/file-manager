@@ -26,9 +26,9 @@ class MediaRepository implements Media
      * @return MediaUploader  The instance of MediaUploader used to upload the file.
      */
     public function upload(
-        string|UploadedFile $source = null,
+        string|UploadedFile|null $source = null,
         string $disk = 'public',
-        string $name = null
+        ?string $name = null
     ): MediaUploader {
         // Create a new instance of MediaUploader and return it.
         return new MediaUploader($source, $disk, $name);

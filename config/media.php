@@ -50,4 +50,8 @@ return [
         'image/svg',
         'image/webp',
     ],
+
+    'models' => [
+        'media' => \Juzaweb\FileManager\Models\Media::class,
+    ]
 ];

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -15,14 +16,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\Core\Database\Factories\MediaFactory;
 use Juzaweb\Core\Http\Resources\MediaResource;
-use Juzaweb\Core\Models\Model;
-use Juzaweb\Core\Traits\HasAPI;
 use Juzaweb\FileManager\Contracts\Media as MediaContract;
 use Juzaweb\FileManager\Enums\MediaType;
 
 class Media extends Model
 {
-    use HasAPI, HasFactory, SoftDeletes, HasUuids;
+    use HasFactory, SoftDeletes, HasUuids;
 
     public const IMAGE_MIME_TYPES = [
         'image/png',
@@ -106,11 +105,6 @@ class Media extends Model
         'type' => 'asc',
         'id' => 'desc',
     ];
-
-    public static function getResource(): string
-    {
-        return MediaResource::class;
-    }
 
     public static function findByPath(string $path, ?string $disk = 'public', array $columns = ['*']): ?Model
     {
