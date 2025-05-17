@@ -9,6 +9,7 @@
 
 namespace Juzaweb\FileManager;
 
+use Illuminate\Support\Facades\Route;
 use Juzaweb\FileManager\Http\Controllers\FileManagerController;
 use Juzaweb\FileManager\Http\Controllers\UploadController;
 use Juzaweb\FileManager\Http\Controllers\ItemsController;
