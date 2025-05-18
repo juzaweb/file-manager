@@ -78,7 +78,7 @@ class UploadController extends FileManagerController
         }
 
         if (!array_key_exists($disk, config('media.disks'))) {
-            return $this->responseUpload([trans('cms::message.invalid_disk') ]);
+            return response()->json(['success' => false, 'message' => trans('cms::message.invalid_disk')]);
         }
 
         DB::beginTransaction();
@@ -90,7 +90,7 @@ class UploadController extends FileManagerController
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
-            return $this->responseUpload([$e->getMessage()]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
 
         return response()->json(

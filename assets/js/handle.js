@@ -41,13 +41,14 @@ $(document).on('submit', 'form#import-url', function () {
         'post', 
         'json'
     ).done(function (response) {
-        if (response.status) {
+        if (response.success) {
             loadItems();
             $('#uploadModal').modal('hide');
             $('#import-url input[name=url]').val(null);
         } else {
-            notify('<div class="text-danger">' + response.data.message + '</div>');
+            notify('<div class="text-danger">' + response.message + '</div>');
         }
+        
         btn.find('i').attr('class', icon);
 	    btn.prop("disabled", false);
         return false;
