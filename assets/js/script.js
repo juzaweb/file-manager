@@ -97,7 +97,7 @@ $(document).ready(function () {
 
 $('#multi_selection_toggle').on('click', function () {
     multi_selection_enabled = !multi_selection_enabled;
-    
+
     $('#multi_selection_toggle i')
         .toggleClass('fa-times', multi_selection_enabled)
         .toggleClass('fa-check-double', !multi_selection_enabled);
@@ -282,8 +282,8 @@ var hideNavAndShowEditor = function (data) {
     clearSelected();
 };
 
-function loadFolders() {
-    performLfmRequest('folders', {}, 'GET', 'html')
+function loadFolders(disk = 'public') {
+    performLfmRequest(`${disk}/folders`, {}, 'GET', 'html')
         .done(function (data) {
             $('#tree').html(data);
             loadItems();
@@ -403,9 +403,9 @@ function createPagination(paginationSetting) {
 function loadItems(page) {
     loading(true);
     performLfmRequest(
-        'jsonitems', 
-        {show_list: show_list, sort_type: sort_type, page: page || 1}, 
-        'GET', 
+        'jsonitems',
+        {show_list: show_list, sort_type: sort_type, page: page || 1},
+        'GET',
         'html'
     ).done(function (data) {
             selected = [];

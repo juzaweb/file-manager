@@ -3,13 +3,13 @@
 namespace Juzaweb\FileManager\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Backend\Models\Media;
-use Juzaweb\Backend\Models\MediaFolder;
+use Juzaweb\FileManager\Models\Media;
 
-class FolderController extends FileManagerController
+class FolderController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\View
+    public function index()
     {
         $childrens = [];
         $folders = Media::whereNull('folder_id')

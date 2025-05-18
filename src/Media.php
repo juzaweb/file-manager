@@ -10,27 +10,25 @@
 namespace Juzaweb\FileManager;
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\FileManager\Http\Controllers\FileManagerController;
+use Juzaweb\FileManager\Http\Controllers\BrowserController;
 use Juzaweb\FileManager\Http\Controllers\UploadController;
-use Juzaweb\FileManager\Http\Controllers\ItemsController;
 use Juzaweb\FileManager\Http\Controllers\FolderController;
-use Juzaweb\FileManager\Http\Controllers\DeleteController;
 
 class Media
 {
     public static function browser(): void
     {
-        Route::get('/{disk}', [FileManagerController::class, 'index']);
+        Route::get('/{disk}/browser', [BrowserController::class, 'index']);
 
-        Route::get('/{disk}/errors', [FileManagerController::class, 'getErrors']);
+        Route::get('/{disk}/errors', [BrowserController::class, 'getErrors']);
 
-        Route::get('/{disk}/items', [ItemsController::class, 'getItems']);
+        Route::get('/{disk}/items', [BrowserController::class, 'getItems']);
 
-        Route::post('/{disk}/newfolder', [FolderController::class, 'addfolder']);
+        Route::post('/{disk}/newfolder', [FolderController::class, 'store']);
 
-        Route::get('/{disk}/folders', [FolderController::class, 'getFolders']);
+        Route::get('/{disk}/folders', [FolderController::class, 'index']);
 
-        Route::post('/{disk}/delete', [DeleteController::class, 'delete']);
+        Route::post('/{disk}/delete', [BrowserController::class, 'delete']);
 
         Route::post('/{disk}/upload', [UploadController::class, 'upload'])
             ->name('media.upload');
