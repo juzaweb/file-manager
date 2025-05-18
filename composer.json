@@ -38,7 +38,8 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^9.0 || ^10.3 || ^11.0"
+        "orchestra/testbench": "^9.0 || ^10.3 || ^11.0",
+        "larabizcms/for-dev": "^1.0"
     },
     "autoload-dev": {
         "psr-4": {
