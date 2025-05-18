@@ -131,7 +131,6 @@
                                 </div>
                             </div>
                             <input type='hidden' name='working_dir' class='working_dir'>
-                            <input type='hidden' name='type' class='type' value='{{ request("type") }}'>
                             <input type='hidden' name='_token' value='{{ csrf_token() }}'>
                         </form>
                     </div>
@@ -150,7 +149,6 @@
                             </div>
 
                             <input type="hidden" name="working_dir" class='working_dir'>
-                            <input type="hidden" name="type" class="type" value="{{ request("type") }}">
 
                             <button type="submit" class="btn btn-success mt-2">
                                 <i class="fa fa-cloud-upload"></i> {{ trans('file-manager::browser.upload_file') }}
@@ -222,8 +220,8 @@
 </div>
 
 <script>
-    var lang = @json(trans('file-manager::browser'));
-    var actions = [
+    const lang = @json(trans('file-manager::browser'));
+    const actions = [
         // {
         //   name: 'use',
         //   icon: 'check',
@@ -287,7 +285,7 @@
         }
     ];
 
-    let multi_selection_enabled = @if($multiChoose == 1) true @else false @endif;
+    const multi_selection_enabled = @if($multiChoose == 1) true @else false @endif;
 </script>
 <script src="{{ mix('js/filemanager.min.js', 'vendor/file-manager') }}"></script>
 

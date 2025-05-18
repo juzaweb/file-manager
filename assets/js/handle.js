@@ -28,11 +28,12 @@ $(document).on('click', '[data-action]', function () {
 $(document).on('submit', 'form#import-url', function () {
     let btn = $(this).find('button[type=submit]');
     let icon = btn.find('i').attr('class');
+    const url = $(this).attr('action');
     btn.find('i').attr('class', 'fa fa-spinner fa-spin');
     btn.prop("disabled", true);
 
     performLfmRequest(
-        'import',
+        url,
         {
             url: $('#import-url input[name=url]').val(),
             download: $('#import-url input[name=download]').is(':checked') ? 1 : 0,

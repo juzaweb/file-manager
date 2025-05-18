@@ -234,6 +234,9 @@ function setOpenFolders() {
 
 function performLfmRequest(url, parameter, method = 'GET', type = 'text') {
     var data = defaultParameters();
+    if (! url.startsWith('http://') && ! url.startsWith('https://')) {
+        url = lfm_route + '/' + url;
+    }
 
     data['_token'] =  $('meta[name="csrf-token"]').attr('content');
     if (parameter != null) {
@@ -251,7 +254,7 @@ function performLfmRequest(url, parameter, method = 'GET', type = 'text') {
             }
         },
         dataType: type,
-        url: lfm_route + '/' + url,
+        url: url,
         data: data,
         cache: false
     }).fail(function (jqXHR, textStatus, errorThrown) {

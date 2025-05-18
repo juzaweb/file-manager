@@ -9,7 +9,16 @@
 
 namespace Juzaweb\FileManager\Http\Requests;
 
-class ImportRequest
-{
+use Illuminate\Foundation\Http\FormRequest;
 
+class ImportRequest extends FormRequest
+{
+    public function rules(): array
+    {
+        return [
+            'working_dir' => ['nullable', 'uuid'],
+            'url' => ['required', 'string', 'url'],
+            'download' => ['nullable', 'boolean']
+        ];
+    }
 }

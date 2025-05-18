@@ -64,40 +64,41 @@ class UploadController extends FileManagerController
         }
     }
 
-    public function import(ImportRequest $request): JsonResponse|RedirectResponse
+    public function import(ImportRequest $request, string $disk): JsonResponse
     {
-        if (!config('juzaweb.filemanager.upload_from_url')) {
+        if (! config('media.upload_from_url')) {
             abort(403);
         }
 
         $folderId = $request->input('working_dir');
         $download = (bool) $request->input('download');
-        $disk = $request->input('disk') ?? config('juzaweb.filemanager.disk');
 
         if (empty($folderId)) {
             $folderId = null;
         }
 
-        if (!in_array($disk, ['public', 'protected', 'tmp'])) {
+        if (!array_key_exists($disk, config('media.disks'))) {
             return $this->responseUpload([trans('cms::message.invalid_disk') ]);
         }
 
         DB::beginTransaction();
         try {
-            $file = FileManager::make($request->input('url'));
-            $file->setType($this->getType());
-            $file->setFolder($folderId);
-            $file->setDownloadFileUrlToServer($download);
-            $file->setDisk($disk);
-            $file->save();
+            $file = new MediaUploader($request->input('url'), $disk);
+            $file->folder($folderId);
+            $file->upload();
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
-            return $this->error($e->getMessage());
+            return $this->responseUpload([$e->getMessage()]);
         }
 
-        return $this->success(trans('cms::message.upload_successfull'));
+        return response()->json(
+            [
+                'success' => true,
+                'message' => trans('cms::message.upload_successfull'),
+            ]
+        );
     }
 
     protected function responseUpload($error): JsonResponse
