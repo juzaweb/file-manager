@@ -27,6 +27,18 @@ class FileManagerServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/media.php' => config_path('media.php'),
         ], 'media-config');
 
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/file-manager'),
+        ], 'media-lang');
+
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/file-manager'),
+        ], 'media-views');
+
+        $this->publishes([
+            __DIR__ . '/../assets/public' => public_path('vendor/file-manager'),
+        ], 'media-assets');
+
         $this->app->singleton(Media::class, MediaRepository::class);
 
         $this->app->singleton(ImageConversion::class, ImageConversionRepository::class);
