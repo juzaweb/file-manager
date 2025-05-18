@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Juzaweb\FileManager\Contracts\ImageConversion;
 use Juzaweb\FileManager\Contracts\Media as MediaContract;
+use Juzaweb\FileManager\Enums\MediaType;
 use Juzaweb\FileManager\Exceptions\MediaException;
 use Juzaweb\FileManager\Jobs\PerformConversions;
 use Juzaweb\FileManager\Models\Media;
@@ -241,10 +242,11 @@ class MediaUploader
                     'path' => $this->getDirectory($this->newFileName),
                     'name' => $this->getName(),
                     'extension' => $this->getExtension(),
-                    'mime_type' => $this->source->getClientMimeType(),
+                    'mime_type' => $this->source->getMimeType(),
                     'size' => $this->source->getSize(),
                     'parent_id' => $this->parentId,
                     'image_size' => $this->getImageSize(),
+                    'type' => MediaType::FILE,
                 ]
             );
 

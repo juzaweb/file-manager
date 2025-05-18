@@ -12,6 +12,7 @@ namespace Juzaweb\FileManager\Http\Controllers;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Juzaweb\FileManager\Enums\MediaType;
 use Juzaweb\FileManager\Models\Media;
 
 class BrowserController extends FileManagerController
@@ -49,12 +50,14 @@ class BrowserController extends FileManagerController
         $folders = collect([]);
         if ($currentPage == 1) {
             $folders = Media::where('parent_id', '=', $workingDir)
+                ->where('type', MediaType::DIRECTORY)
                 ->where('disk', '=', $disk)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name']);
         }
 
         $query = Media::where('parent_id', '=', $workingDir)
+            ->where('type', MediaType::FILE)
             ->where('disk', '=', $disk)
             ->when(
                 $type,
@@ -81,14 +84,16 @@ class BrowserController extends FileManagerController
         }
 
         foreach ($files as $file) {
+            $isImage = $file->isImage();
+
             $items[] = [
                 'id' => $file->id,
-                'icon' => $file->type == 'image' ? 'fa-image' : 'fa-file',
+                'icon' => $isImage ? 'fa-image' : 'fa-file',
                 'is_file' => true,
                 'path' => $file->path,
-                'is_image' => $file->type == 'image',
+                'is_image' => $isImage,
                 'name' => $file->name,
-                'thumb_url' => $file->type == 'image' ? media_url($file->path) : null,
+                'thumb_url' => $isImage ? media_url($file->path) : null,
                 'time' => strtotime($file->created_at),
                 'url' => media_url($file->path),
             ];
