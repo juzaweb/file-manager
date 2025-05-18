@@ -14,19 +14,6 @@ abstract class FileManagerController extends Controller
         throw new \RuntimeException(trans('cms::filemanager.error_'.$type, $variables));
     }
 
-    protected function getTypeExtensions(string $type)
-    {
-        $extensions = config("juzaweb.filemanager.types.{$type}.extensions");
-        if (empty($extensions)) {
-            $extensions = match ($type) {
-                'file' => Facades::defaultFileExtensions(),
-                'image' => Facades::defaultImageExtensions(),
-            };
-        }
-
-        return $extensions;
-    }
-
     protected function getType(): string
     {
         $type = strtolower(request()->get('type'));

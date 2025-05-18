@@ -22,7 +22,7 @@ class Media
 
         Route::get('/{disk}/browser/errors', [BrowserController::class, 'getErrors']);
 
-        Route::get('/{disk}/browser/items', [BrowserController::class, 'getItems']);
+        Route::get('/{disk}/browser/items', [BrowserController::class, 'items']);
 
         Route::post('/{disk}/browser/folders', [FolderController::class, 'store']);
 

@@ -4,6 +4,7 @@ namespace Juzaweb\FileManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\FileManager\Enums\MediaType;
 use Juzaweb\FileManager\Models\Media;
 
 class FolderController extends FileManagerController
@@ -12,13 +13,14 @@ class FolderController extends FileManagerController
     {
         $childrens = [];
         $folders = Media::whereNull('parent_id')
-            ->where('type', '=', $this->getType())
+            ->where('type', '=', MediaType::DIRECTORY)
             ->get(['id', 'name']);
         $storage = Media::sum('size');
         $total = disk_total_space(storage_path());
 
         foreach ($folders as $folder) {
             $childrens[] = (object) [
+                'id' => $folder->id,
                 'name' => $folder->name,
                 'url' => $folder->id,
                 'children' => [],
@@ -45,27 +47,27 @@ class FolderController extends FileManagerController
 
     public function store(Request $request): string
     {
-        $folder_name = $request->input('name');
-        $parent_id = $request->input('working_dir');
+        $name = $request->input('name');
+        $parentId = $request->input('working_dir');
 
-        if (empty($folder_name)) {
+        if (empty($name)) {
             $this->throwError('folder-name');
         }
 
-        if (Media::folderExists($folder_name, $parent_id)) {
+        if (Media::folderExists($name, $parentId)) {
             $this->throwError('folder-exist');
         }
 
-        if (preg_match('/[^\w-]/i', $folder_name)) {
+        if (preg_match('/[^\w-]/i', $name)) {
             $this->throwError('folder-alnum');
         }
 
         DB::beginTransaction();
         try {
             $model = new Media();
-            $model->name = $folder_name;
+            $model->name = $name;
             $model->type = $this->getType();
-            $model->folder_id = $parent_id;
+            $model->folder_id = $parentId;
             $model->save();
             DB::commit();
         } catch (\Exception $e) {

@@ -37,15 +37,13 @@ class BrowserController extends FileManagerController
         );
     }
 
-    public function getItems(Request $request): array
+    public function items(Request $request, string $disk): array
     {
         $type = $this->getType();
-        $extensions = $this->getTypeExtensions($type);
         $currentPage = $request->input('page', 1);
         $perPage = 15;
 
         $workingDir = $request->get('working_dir');
-        $disk = $request->get('disk') ?? config('juzaweb.filemanager.disk');
 
         $folders = collect([]);
         if ($currentPage == 1) {
@@ -57,7 +55,10 @@ class BrowserController extends FileManagerController
 
         $query = Media::where('parent_id', '=', $workingDir)
             ->where('disk', '=', $disk)
-            ->whereIn('extension', $extensions)
+            ->when(
+                $type,
+                fn ($q) => $q->whereIn('extension', config("media.types.{$type}"))
+            )
             ->orderBy('id', 'DESC');
 
         $totalFiles = $query->count(['id']);
@@ -66,6 +67,7 @@ class BrowserController extends FileManagerController
         $items = [];
         foreach ($folders as $folder) {
             $items[] = [
+                'id' => $folder->id,
                 'icon' => 'fa-folder-o',
                 'is_file' => false,
                 'is_image' => false,
@@ -79,6 +81,7 @@ class BrowserController extends FileManagerController
 
         foreach ($files as $file) {
             $items[] = [
+                'id' => $file->id,
                 'icon' => $file->type == 'image' ? 'fa-image' : 'fa-file',
                 'is_file' => true,
                 'path' => $file->path,
@@ -120,7 +123,7 @@ class BrowserController extends FileManagerController
         return $errors;
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, string $disk)
     {
         $itemNames = $request->post('items');
         $errors = [];
