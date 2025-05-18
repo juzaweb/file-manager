@@ -17,12 +17,11 @@ class UploadController extends FileManagerController
 {
     protected array $errors = [];
 
-    public function upload(Request $request): JsonResponse
+    public function upload(Request $request, string $disk): JsonResponse
     {
         $folderId = $request->input('working_dir');
-        $disk = $request->input('disk') ?? config('juzaweb.filemanager.disk');
 
-        if (!in_array($disk, ['public', 'protected', 'tmp'])) {
+        if (!in_array($disk, array_keys(config('media.disks')))) {
             return $this->responseUpload([trans('cms::message.invalid_disk') ]);
         }
 

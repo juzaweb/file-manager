@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Filemanager\Tests;
 
+use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Juzaweb\Filemanager\Providers\FilemanagerServiceProvider;
 
@@ -18,7 +19,6 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Thực hiện migrate các bảng cần thiết
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 }
