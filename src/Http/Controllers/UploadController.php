@@ -40,6 +40,8 @@ class UploadController extends FileManagerController
             if ($save->isFinished()) {
                 $uploader = new MediaUploader($save->getFile(), $disk);
 
+                $uploader->folder($folderId);
+
                 $file = $uploader->upload();
 
                 event(new UploadFileSuccess($file));
