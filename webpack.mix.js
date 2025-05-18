@@ -27,7 +27,7 @@ mix.styles([
     'assets/css/cropper.min.css',
     'assets/css/dropzone.css',
     'assets/css/lfm.css',
-], 'css/filemanager.min.css');
+], 'assets/public/css/filemanager.min.css');
 
 mix.combine([
     'assets/vendors/jquery/jquery.min.js',
@@ -38,4 +38,4 @@ mix.combine([
     'assets/js/dropzone.js',
     'assets/js/script.js',
     'assets/js/handle.js',
-], 'js/filemanager.min.js');
+], 'assets/public/js/filemanager.min.js');
