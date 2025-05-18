@@ -269,9 +269,8 @@ function displayErrorResponse(jqXHR) {
 
 var refreshFoldersAndItems = function (data) {
     loadFolders();
-    if (data != 'OK') {
-        data = Array.isArray(data) ? data.join('<br/>') : data;
-        notify(data);
+    if (! data.success) {
+        notify(data.message);
     }
 };
 
@@ -514,7 +513,7 @@ function loading(show_loading) {
 }
 
 function createFolder(folder_name) {
-    performLfmRequest('newfolder', {name: folder_name}, 'POST')
+    performLfmRequest('folders', {name: folder_name}, 'POST', 'json')
         .done(refreshFoldersAndItems);
 }
 

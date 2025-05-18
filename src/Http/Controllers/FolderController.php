@@ -2,9 +2,9 @@
 
 namespace Juzaweb\FileManager\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\FileManager\Enums\MediaType;
+use Juzaweb\FileManager\Http\Requests\StoreFolderRequest;
 use Juzaweb\FileManager\Models\Media;
 
 class FolderController extends FileManagerController
@@ -45,29 +45,25 @@ class FolderController extends FileManagerController
             );
     }
 
-    public function store(Request $request): string
+    public function store(StoreFolderRequest $request, string $disk)
     {
         $name = $request->input('name');
         $parentId = $request->input('working_dir');
 
-        if (empty($name)) {
-            $this->throwError('folder-name');
-        }
-
-        if (Media::folderExists($name, $parentId)) {
-            $this->throwError('folder-exist');
-        }
-
         if (preg_match('/[^\w-]/i', $name)) {
-            $this->throwError('folder-alnum');
+            return response()->json([
+                'success' => false,
+                'message' => trans('file-manager::browser.error-folder-alnum')
+            ]);
         }
 
         DB::beginTransaction();
         try {
             $model = new Media();
             $model->name = $name;
-            $model->type = $this->getType();
-            $model->folder_id = $parentId;
+            $model->type = MediaType::DIRECTORY;
+            $model->parent_id = $parentId;
+            $model->disk = $disk;
             $model->save();
             DB::commit();
         } catch (\Exception $e) {
@@ -75,6 +71,6 @@ class FolderController extends FileManagerController
             return $e->getMessage();
         }
 
-        return parent::$success_response;
+        return response()->json(['success' => true]);
     }
 }

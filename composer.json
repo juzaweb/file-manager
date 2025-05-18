@@ -19,7 +19,8 @@
     "require": {
         "php": ">=8.1",
         "spatie/image-optimizer": "^1.8",
-        "pion/laravel-chunk-upload": "^1.5"
+        "pion/laravel-chunk-upload": "^1.5",
+        "intervention/image": "^3.11"
     },
     "autoload": {
         "psr-4": {

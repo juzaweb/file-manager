@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\FileManager\Events\UploadFileSuccess;
+use Juzaweb\FileManager\Http\Requests\ImportRequest;
 use Juzaweb\FileManager\MediaUploader;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
