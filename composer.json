@@ -18,12 +18,16 @@
     ],
     "require": {
         "php": ">=8.1",
-        "spatie/image-optimizer": "^1.8"
+        "spatie/image-optimizer": "^1.8",
+        "pion/laravel-chunk-upload": "^1.5"
     },
     "autoload": {
         "psr-4": {
             "Juzaweb\\FileManager\\": "src/"
-        }
+        },
+        "files": [
+            "helpers/helpers.php"
+        ]
     },
     "extra": {
         "laravel": {
