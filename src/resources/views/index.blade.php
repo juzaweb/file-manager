@@ -10,7 +10,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ trans('file-manager::browser.title-page') }}</title>
         <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
-        <link rel="stylesheet" href="{{ asset('jw-styles/juzaweb/css/filemanager.min.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/filemanager.min.css', 'vendor/file-manager') }}">
     </head>
 <body>
 
@@ -289,7 +289,7 @@
 
     let multi_selection_enabled = @if($multiChoose == 1) true @else false @endif;
 </script>
-<script src="{{ asset('jw-styles/juzaweb/js/filemanager.min.js') }}"></script>
+<script src="{{ mix('js/filemanager.min.js', 'vendor/file-manager') }}"></script>
 
 <script>
     Dropzone.options.uploadForm = {

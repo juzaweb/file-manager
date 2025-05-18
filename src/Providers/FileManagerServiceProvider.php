@@ -36,7 +36,7 @@ class FileManagerServiceProvider extends ServiceProvider
         ], 'media-views');
 
         $this->publishes([
-            __DIR__ . '/../assets/public' => public_path('vendor/file-manager'),
+            __DIR__ . '/../../assets/public' => public_path('vendor/file-manager'),
         ], 'media-assets');
 
         $this->app->singleton(Media::class, MediaRepository::class);
