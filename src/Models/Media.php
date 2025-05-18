@@ -295,22 +295,25 @@ class Media extends Model
 
     public function isImage(): bool
     {
-        return in_array($this->mime_type, config('media.image_mime_types', self::IMAGE_MIME_TYPES));
+        return in_array(
+            $this->mime_type,
+            config('media.types.image', [])
+        );
     }
 
     public function isVideo(): bool
     {
-        return in_array($this->mime_type, self::VIDEO_MIME_TYPES);
+        return in_array($this->mime_type, config('media.types.video', []));
     }
 
     public function isAudio(): bool
     {
-        return in_array($this->mime_type, self::AUDIO_MIME_TYPES);
+        return in_array($this->mime_type, config('media.types.audio', []));
     }
 
     public function isDocument(): bool
     {
-        return in_array($this->mime_type, self::DOCUMENT_MIME_TYPES);
+        return in_array($this->mime_type, config('media.types.document', []));
     }
 
     public function readableSize(int $precision = 1): string

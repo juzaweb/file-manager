@@ -155,7 +155,7 @@ class MediaRepository implements Media
     public function validateUploadedFile(UploadedFile $file, string $disk): void
     {
         if (($mimeTypes = config("media.disks.{$disk}.mime_types", []))
-            && !in_array($file->getClientMimeType(), $mimeTypes)
+            && !in_array($file->getMimeType(), $mimeTypes)
         ) {
             throw MediaException::mimeTypeNotSupported($file->getClientMimeType(), $mimeTypes);
         }

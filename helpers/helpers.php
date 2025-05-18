@@ -32,7 +32,7 @@ if (! function_exists('format_size_units')) {
      * @param int $decimals The number of decimal places to use in the formatted output. Default is 2.
      * @return string A human-readable string representing the size in bytes using appropriate units (GB, MB, KB, bytes).
      */
-    function format_size_units($bytes, $decimals = 2): string
+    function format_size_units($bytes, int $decimals = 2): string
     {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, $decimals) . ' GB';
@@ -49,5 +49,22 @@ if (! function_exists('format_size_units')) {
         }
 
         return $bytes;
+    }
+}
+
+if (!function_exists('is_url')) {
+    /**
+     * Return true if string is a url
+     *
+     * @param string|null $url
+     * @return bool
+     */
+    function is_url(?string $url): bool
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+        $encoded_path = array_map('urlencode', explode('/', $path));
+        $url = str_replace($path, implode('/', $encoded_path), $url);
+
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 }

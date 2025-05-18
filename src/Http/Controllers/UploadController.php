@@ -2,13 +2,13 @@
 
 namespace Juzaweb\FileManager\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Backend\Events\UploadFileSuccess;
-use Juzaweb\Backend\Http\Requests\FileManager\ImportRequest;
-use Juzaweb\CMS\Support\FileManager;
+use Juzaweb\FileManager\Events\UploadFileSuccess;
+use Juzaweb\FileManager\MediaUploader;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
@@ -21,8 +21,8 @@ class UploadController extends FileManagerController
     {
         $folderId = $request->input('working_dir');
 
-        if (!in_array($disk, array_keys(config('media.disks')))) {
-            return $this->responseUpload([trans('cms::message.invalid_disk') ]);
+        if (!array_key_exists($disk, config('media.disks'))) {
+            return $this->responseUpload([trans('file-manager::browser.invalid_disk') ]);
         }
 
         if (empty($folderId)) {
@@ -37,13 +37,9 @@ class UploadController extends FileManagerController
 
             $save = $receiver->receive();
             if ($save->isFinished()) {
-                $file = FileManager::addFile(
-                    $save->getFile(),
-                    $this->getType(),
-                    $folderId,
-                    null,
-                    $disk
-                );
+                $uploader = new MediaUploader($save->getFile(), $disk);
+
+                $file = $uploader->upload();
 
                 event(new UploadFileSuccess($file));
 
@@ -58,7 +54,7 @@ class UploadController extends FileManagerController
                     'status' => true,
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             report($e);
             $this->errors[] = $e->getMessage();
             return $this->responseUpload($this->errors);
@@ -92,7 +88,7 @@ class UploadController extends FileManagerController
             $file->setDisk($disk);
             $file->save();
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             report($e);
             return $this->error($e->getMessage());
