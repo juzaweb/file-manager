@@ -3,16 +3,15 @@
 namespace Juzaweb\FileManager\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\FileManager\Models\Media;
 
-class FolderController extends Controller
+class FolderController extends FileManagerController
 {
     public function index()
     {
         $childrens = [];
-        $folders = Media::whereNull('folder_id')
+        $folders = Media::whereNull('parent_id')
             ->where('type', '=', $this->getType())
             ->get(['id', 'name']);
         $storage = Media::sum('size');
@@ -27,7 +26,7 @@ class FolderController extends Controller
             ];
         }
 
-        return view('cms::backend.filemanager.tree')
+        return view('file-manager::tree')
             ->with(
                 [
                     'storage' => $storage,
@@ -50,15 +49,15 @@ class FolderController extends Controller
         $parent_id = $request->input('working_dir');
 
         if (empty($folder_name)) {
-            return $this->throwError('folder-name');
+            $this->throwError('folder-name');
         }
 
         if (Media::folderExists($folder_name, $parent_id)) {
-            return $this->throwError('folder-exist');
+            $this->throwError('folder-exist');
         }
 
         if (preg_match('/[^\w-]/i', $folder_name)) {
-            return $this->throwError('folder-alnum');
+            $this->throwError('folder-alnum');
         }
 
         DB::beginTransaction();

@@ -2,11 +2,8 @@
 
 namespace Juzaweb\FileManager\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
-use Juzaweb\FileManager\Models\Media;
 
 abstract class FileManagerController extends Controller
 {
@@ -14,7 +11,7 @@ abstract class FileManagerController extends Controller
 
     public function throwError($type, $variables = []): void
     {
-        throw new \Exception(trans('cms::filemanager.error_' . $type, $variables));
+        throw new \RuntimeException(trans('cms::filemanager.error_'.$type, $variables));
     }
 
     protected function getTypeExtensions(string $type)

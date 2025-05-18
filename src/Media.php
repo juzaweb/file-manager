@@ -20,15 +20,15 @@ class Media
     {
         Route::get('/{disk}/browser', [BrowserController::class, 'index']);
 
-        Route::get('/{disk}/errors', [BrowserController::class, 'getErrors']);
+        Route::get('/{disk}/browser/errors', [BrowserController::class, 'getErrors']);
 
-        Route::get('/{disk}/items', [BrowserController::class, 'getItems']);
+        Route::get('/{disk}/browser/items', [BrowserController::class, 'getItems']);
 
-        Route::post('/{disk}/newfolder', [FolderController::class, 'store']);
+        Route::post('/{disk}/browser/folders', [FolderController::class, 'store']);
 
-        Route::get('/{disk}/folders', [FolderController::class, 'index']);
+        Route::get('/{disk}/browser/folders', [FolderController::class, 'index']);
 
-        Route::post('/{disk}/delete', [BrowserController::class, 'delete']);
+        Route::post('/{disk}/browser/delete', [BrowserController::class, 'delete']);
 
         Route::post('/{disk}/upload', [UploadController::class, 'upload'])
             ->name('media.upload');

@@ -282,8 +282,8 @@ var hideNavAndShowEditor = function (data) {
     clearSelected();
 };
 
-function loadFolders(disk = 'public') {
-    performLfmRequest(`${disk}/folders`, {}, 'GET', 'html')
+function loadFolders() {
+    performLfmRequest(`folders`, {}, 'GET', 'html')
         .done(function (data) {
             $('#tree').html(data);
             loadItems();
@@ -403,7 +403,7 @@ function createPagination(paginationSetting) {
 function loadItems(page) {
     loading(true);
     performLfmRequest(
-        'jsonitems',
+        'items',
         {show_list: show_list, sort_type: sort_type, page: page || 1},
         'GET',
         'html'
