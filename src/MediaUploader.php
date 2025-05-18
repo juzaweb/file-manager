@@ -372,7 +372,11 @@ class MediaUploader
      */
     protected function downloadFileUrl(): string
     {
-        $tmp = Storage::disk('tmp');
+        $tmp = Storage::build([
+            'driver' => 'local',
+            'root' => storage_path('app/tmps'),
+            'throw' => true,
+        ]);
         $folder = Str::random(32);
         $fileName = $this->getFileNameFromSource();
         $filePath = $tmp->path($folder . '/' . $fileName);
