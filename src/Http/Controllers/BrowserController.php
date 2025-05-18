@@ -11,6 +11,7 @@ namespace Juzaweb\FileManager\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Juzaweb\FileManager\Models\Media;
 
 class BrowserController extends FileManagerController
@@ -87,9 +88,9 @@ class BrowserController extends FileManagerController
                 'path' => $file->path,
                 'is_image' => $file->type == 'image',
                 'name' => $file->name,
-                'thumb_url' => $file->type == 'image' ? upload_url($file->path) : null,
+                'thumb_url' => $file->type == 'image' ? media_url($file->path) : null,
                 'time' => strtotime($file->created_at),
-                'url' => upload_url($file->path),
+                'url' => media_url($file->path),
             ];
         }
 
@@ -136,7 +137,7 @@ class BrowserController extends FileManagerController
 
             $is_directory = $this->isDirectory($file);
             if ($is_directory) {
-                Media::find($file)->deleteFolder();
+                Media::where(['disk' => $disk, 'id' => $file])->first()->deleteFolder();
             } else {
                 $file_path = $this->getPath($file);
                 Media::where('path', '=', $file_path)
@@ -150,5 +151,17 @@ class BrowserController extends FileManagerController
         }
 
         return static::$success_response;
+    }
+
+    public function showFile($path)
+    {
+        $storage = Storage::disk(config('juzaweb.filemanager.disk'));
+
+        if (! $storage->exists($path)) {
+            abort(404);
+        }
+
+        return response($storage->get($path))
+            ->header('Content-Type', $storage->mimeType($path));
     }
 }

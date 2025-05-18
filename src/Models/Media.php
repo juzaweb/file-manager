@@ -468,6 +468,15 @@ class Media extends Model
         return $this;
     }
 
+    public function delete()
+    {
+        if ($this->filesystem()->delete($this->path)) {
+            return parent::delete();
+        }
+
+        throw new \RuntimeException('Cannot delete file, please check permission!');
+    }
+
     /**
      * Get the filesystem where the associated file is stored.
      *
